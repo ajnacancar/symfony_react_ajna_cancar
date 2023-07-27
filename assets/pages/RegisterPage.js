@@ -9,6 +9,9 @@ function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    //API CALL FOR REGIST USER ON BLOG SYSTEM
+    //author: Ajna Cancar
+    //mail: ajna.cancar2019@size.ba
     await axios
       .post("/api/register", { username, password })
       .then((res) => {
