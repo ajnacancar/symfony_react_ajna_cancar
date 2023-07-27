@@ -36,6 +36,10 @@ class PostsController extends AbstractController
     #[Route('/posts/all', name: 'app_posts',  methods: "GET")]    
     /**
      * index
+     * author: Ajna Cancar
+     * mail: ajna.cancar2019@size.ba
+     * 
+     * Function returs all posts in datbase
      *
      * @param  mixed $doctrine
      * @return JsonResponse
@@ -61,6 +65,11 @@ class PostsController extends AbstractController
     #[Route('/posts/new', name: 'app_posts_new',  methods: "POST")]    
     /**
      * new
+     * author: Ajna Cancar
+     * mail: ajna.cancar2019@size.ba
+     * 
+     * Function to add new posts to blog managment system
+     * This route is protected and only admin can access -----> refer to /config/packages/security.yaml file
      *
      * @param  mixed $doctrine
      * @param  mixed $request
@@ -103,6 +112,10 @@ class PostsController extends AbstractController
     #[Route('/posts/show/{id}', name: 'app_posts_show_one',  methods: "GET")]    
     /**
      * showOne
+     *  author: Ajna Cancar
+     * mail: ajna.cancar2019@size.ba
+     * 
+     * Function to return data about only one post
      *
      * @param  mixed $doctrine
      * @param  mixed $id
@@ -132,6 +145,11 @@ class PostsController extends AbstractController
     #[Route('/posts/edit/{id}', name: 'app_posts_edit',  methods: "POST")]    
     /**
      * edit
+     *  author: Ajna Cancar
+     * mail: ajna.cancar2019@size.ba
+     * 
+     * Function to edit existing post in system
+     * This route is protected and only admin can access -----> refer to /config/packages/security.yaml file
      *
      * @param  mixed $doctrine
      * @param  mixed $request
@@ -182,6 +200,12 @@ class PostsController extends AbstractController
     #[Route('/posts/delete/{id}', name: 'app_posts_delete',  methods: "DELETE")]    
     /**
      * delete
+     *  author: Ajna Cancar
+     * mail: ajna.cancar2019@size.ba
+     * 
+     * Function to delete existing post in system
+     * Before remove a post, check if post image exist and delete it
+     * This route is protected and only admin can access -----> refer to /config/packages/security.yaml file
      *
      * @param  mixed $doctrine
      * @param  mixed $id
@@ -209,7 +233,11 @@ class PostsController extends AbstractController
     
     /**
      * uploadImage
-     *
+     * author: Ajna Cancar
+     * mail: ajna.cancar2019@size.ba
+     * 
+     * Function to upload and save post image. 
+     * 
      * @param  mixed $image
      * @param  mixed $slugger
      * @return string

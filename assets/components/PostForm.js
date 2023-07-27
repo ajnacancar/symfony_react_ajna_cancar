@@ -26,6 +26,9 @@ function PostForm({ formTitle, post, isNew }) {
     };
 
     if (isNew) {
+      //API CALL FOR CREATE NEW POST
+      //author: Ajna Cancar
+      //mail: ajna.cancar2019@size.ba
       await axios
         .post("/api/posts/new", formData, config)
         .then((res) => {
@@ -49,6 +52,9 @@ function PostForm({ formTitle, post, isNew }) {
           });
         });
     } else {
+      //API CALL FOR CREATE EDIT EXISTING POST
+      //author: Ajna Cancar
+      //mail: ajna.cancar2019@size.ba
       await axios
         .post(`/api/posts/edit/${post.id}`, formData, config)
         .then((res) => {

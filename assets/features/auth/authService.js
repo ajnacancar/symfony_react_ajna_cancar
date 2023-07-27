@@ -1,6 +1,10 @@
 import axios from "axios";
 import { TOKEN_LOCAL_STORAGE } from "../../data/static_data";
 
+
+//LOGOUT USER
+//author: Ajna Cancar
+//mail: ajna.cancar2019@size.ba
 const login = async (data) => {
   const response = await axios.post("/api/login_check", data);
 
@@ -15,9 +19,13 @@ const login = async (data) => {
 };
 
 //LOGOUT USER
+//author: Ajna Cancar
+//mail: ajna.cancar2019@size.ba
 const logout = () => localStorage.removeItem(TOKEN_LOCAL_STORAGE);
 
 //CHECK CURRENT USER
+//author: Ajna Cancar
+//mail: ajna.cancar2019@size.ba
 const currentUser = async (token) => {
   const config = {
     headers: {

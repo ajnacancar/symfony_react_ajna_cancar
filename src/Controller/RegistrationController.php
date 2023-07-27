@@ -32,6 +32,10 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'register', methods: "POST")]    
     /**
      * index
+     * author: Ajna Cancar
+     * mail: ajna.cancar2019@size.ba
+     * 
+     * Api call to register user 
      *
      * @param  mixed $doctrine
      * @param  mixed $request
@@ -61,9 +65,13 @@ class RegistrationController extends AbstractController
         return $this->json(['message' => 'Registered Successfully']);
     }
 
+
     #[Route('/current-user', name: 'current_user', methods: "GET")]    
     /**
      * current_user
+     * author: Ajna Cancar
+     * mail: ajna.cancar2019@size.ba
+     * Function for check if logged in user is Admin
      *
      * @return JsonResponse
      */
