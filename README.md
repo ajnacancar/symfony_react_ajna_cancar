@@ -38,16 +38,16 @@ Please make sure all the prerequisites are installed and set up correctly before
 Installation and Usage
 To run the Simple Blog Management App on your local machine, follow these steps:
 
-Clone the repository: `git clone <repository_url>`
-Install composer dependecies `symfony composer install`
-Install yarn dependecnies `yarn install`
-Install npm dependencies `npm install`
-Configure database in .env file
-Set up the database: 
+1. Clone the repository: `git clone <repository_url>`
+2. Install composer dependecies `symfony composer install`
+3. Install yarn dependecnies `yarn install`
+4. Install npm dependencies `npm install`
+5. Configure database in .env file
+6. Set up the database: 
           `php bin/console doctrine:database:create`
           `php bin/console doctrine:migrations:migrate`
-Start server: `symfony server:start`
-Start encore: `yarn encore dev --watch`
+7. Start server: `symfony server:start`
+8. Start encore: `yarn encore dev --watch`
 
 Go to http:localhost:8000/ and explore the app
           
