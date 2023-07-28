@@ -46,8 +46,13 @@ To run the Simple Blog Management App on your local machine, follow these steps:
 6. Set up the database: 
           `php bin/console doctrine:database:create`
           `php bin/console doctrine:migrations:migrate`
-7. Start server: `symfony server:start`
-8. Start encore: `yarn encore dev --watch`
+7. generate jwt keypair: `php bin/console lexik:jwt:generate-keypair`
+8. If generate jwt keypair returns errors, you can manually create keys:
+          `mkdir config/jwt`
+          `openssl genrsa -out config/jwt/private.pem -aes256 4096`
+          `openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem`
+9. Start server: `symfony server:start`
+10. Start encore: `yarn encore dev --watch`
 
 Go to http:localhost:8000/ and explore the app
 
