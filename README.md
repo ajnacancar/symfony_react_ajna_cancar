@@ -52,7 +52,7 @@ To run the Simple Blog Management App on your local machine, follow these steps:
 Go to http:localhost:8000/ and explore the app
 
 Admin is automaticly seeded in database: 
-          **username:** amdin
-          **password:** 123456
+         - **username:** amdin
+         - **password:** 123456
           
 
