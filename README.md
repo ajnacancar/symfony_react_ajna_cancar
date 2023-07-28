@@ -50,5 +50,9 @@ To run the Simple Blog Management App on your local machine, follow these steps:
 8. Start encore: `yarn encore dev --watch`
 
 Go to http:localhost:8000/ and explore the app
+
+Admin is automaticly seeded in database: 
+          **username:** amdin
+          **password:** 123456
           
 
