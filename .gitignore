@@ -24,7 +24,6 @@ symfony.lock
 ###< symfony/phpunit-bridge ###
 
 ###> lexik/jwt-authentication-bundle ###
-/config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 
 ###> symfony/webpack-encore-bundle ###

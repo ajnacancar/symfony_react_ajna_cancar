@@ -1,17 +1,21 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { IMAGE_LINK } from "../data/static_data";
+import { API_URL, IMAGE_LINK } from "../data/static_data";
+import { getAllCategories } from "../features/category/categorySlice";
 
 function PostForm({ formTitle, post, isNew }) {
   const { token } = useSelector((state) => state.auth);
+  const { categories } = useSelector((state) => state.category);
   const [title, setTitle] = useState(post ? post.title : "");
   const [content, setContent] = useState(post ? post.content : "");
   const [image, setImage] = useState(null);
+  const [categoryId, setCategoryId] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +23,8 @@ function PostForm({ formTitle, post, isNew }) {
     formData.append("title", title);
     formData.append("content", content);
     formData.append("image", image);
+    formData.append("category_id", categoryId);
+
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -26,16 +32,11 @@ function PostForm({ formTitle, post, isNew }) {
     };
 
     if (isNew) {
-      //API CALL FOR CREATE NEW POST
-      //author: Ajna Cancar
-      //mail: ajna.cancar2019@size.ba
       await axios
-        .post("/api/posts/new", formData, config)
+        .post(`${API_URL}/posts/new`, formData, config)
         .then((res) => {
           Swal.fire("Created!", "Your post has been created.", "success");
-          setTitle("");
-          setImage(null);
-          setContent("");
+          navigate("/all-posts");
         })
         .catch((error) => {
           if (
@@ -52,11 +53,8 @@ function PostForm({ formTitle, post, isNew }) {
           });
         });
     } else {
-      //API CALL FOR CREATE EDIT EXISTING POST
-      //author: Ajna Cancar
-      //mail: ajna.cancar2019@size.ba
       await axios
-        .post(`/api/posts/edit/${post.id}`, formData, config)
+        .post(`${API_URL}/posts/edit/${post.id}`, formData, config)
         .then((res) => {
           Swal.fire("Upadted!", "Your post has been updated.", "success");
         })
@@ -76,6 +74,32 @@ function PostForm({ formTitle, post, isNew }) {
         });
     }
   };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const { files } = event.dataTransfer;
+    if (files.length === 1) {
+      setImage(files[0]);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "You can upload only one image!",
+      });
+    }
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  const handleDragStart = (event) => {
+    event.dataTransfer.setData("text/plain", event.target.id);
+  };
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, []);
 
   return (
     <div className="w-full">
@@ -176,8 +200,14 @@ function PostForm({ formTitle, post, isNew }) {
                   <label
                     htmlFor="dropzone-file"
                     className="flex flex-col items-center justify-center w-full h-64 border border-blue-400"
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
                   >
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <div
+                      className="flex flex-col items-center justify-center pt-5 pb-6"
+                      draggable="true"
+                      onDragStart={handleDragStart}
+                    >
                       <AiOutlineCloudUpload size={30} />
                       <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                         <span className="font-semibold">Click to upload</span>{" "}
@@ -192,10 +222,39 @@ function PostForm({ formTitle, post, isNew }) {
                       id="dropzone-file"
                       type="file"
                       className="hidden"
+                      multiple={false}
+                      accept=".svg, .png, .jpg, .jpeg, .gif"
                     />
                   </label>
                 </div>
               )}
+
+              <div className="w-full md:my-4 my-2">
+                <label htmlFor="category" className="text-blue-400 my-2">
+                  Select a category
+                </label>
+                <select
+                  required={categoryId == ""}
+                  onChange={(e) => {
+                    setCategoryId(e.target.value);
+                  }}
+                  id="category"
+                  className="w-full border border-blue-400 focus:outline-none p-2 rounded-sm bg-transparent"
+                >
+                  <option value="">--Choose a category--</option>
+                  {categories &&
+                    categories.map((category) => (
+                      <option
+                        key={category.id}
+                        selected={post && post.category.id === category.id}
+                        value={category.id}
+                      >
+                        {" "}
+                        {category.name}{" "}
+                      </option>
+                    ))}
+                </select>
+              </div>
 
               <div className="w-full flex justify-between items-center my-5">
                 <Link

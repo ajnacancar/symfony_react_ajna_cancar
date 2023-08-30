@@ -1,40 +1,54 @@
 import axios from "axios";
+import { API_URL } from "../../data/static_data";
 
-
-//GET ALL POSTS
-//author: Ajna Cancar
-//mail: ajna.cancar2019@size.ba
 const getAllPosts = async () => {
-  const response = await axios.get("/api/posts/all");
+  
+  const response = await axios.get(`${API_URL}/posts/all`);
   return response.data;
 };
 
-//DELETE POST
-//author: Ajna Cancar
-//mail: ajna.cancar2019@size.ba
-const deletePost = async (id, token) => {
+const getAllLikedPosts = async (token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.delete(`/api/posts/delete/${id}`, config);
+  const response = await axios.get(`${API_URL}/posts/liked-posts`, config);
+  return response.data;
+};
+
+const getAllPostsByCategory = async (id) => {
+  const response = await axios.get(`${API_URL}/posts/category/${id}`);
+  return response.data;
+};
+
+const deletePost = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization:  `Bearer ${token}`,
+    },
+  };
+  const response = await axios.delete(`${API_URL}/posts/delete/${id}`, config);
   return response.data;
 };
 
 
-//GET POST BY ID
-//author: Ajna Cancar
-//mail: ajna.cancar2019@size.ba
-const getPostById =  async (id) => {
-  const response = await axios.get(`/api/posts/show/${id}`);
+const getPostById =  async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: token && `Bearer ${token}`,
+    },
+  };
+  const response = await axios.get(`${API_URL}/posts/show/${id}`, config);
   return response.data;
 }
 
 const postsService = {
   getAllPosts,
   deletePost,
-  getPostById
+  getPostById,
+  getAllPostsByCategory,
+  getAllLikedPosts
 };
 
 export default postsService;

@@ -30,6 +30,44 @@ export const getAllPosts = createAsyncThunk(
   }
 );
 
+//GET ALL LIKED POSTS
+export const getAllLikedPosts = createAsyncThunk(
+  "getAllLikedPosts",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.token;
+      return await postsService.getAllLikedPosts(token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+
+//GET ALL POSTS BY CATEGORY
+export const getAllPostsByCategory = createAsyncThunk(
+  "getAllPostsByCategory",
+  async (id, thunkAPI) => {
+    try {
+      return await postsService.getAllPostsByCategory(id);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 //DELETE POST
 export const deletePost = createAsyncThunk(
   "deletePost",
@@ -54,7 +92,8 @@ export const getPostById = createAsyncThunk(
   "getPostById",
   async (id, thunkAPI) => {
     try {
-      return await postsService.getPostById(id);
+      const token = thunkAPI.getState().auth.token;
+      return await postsService.getPostById(id, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -84,6 +123,37 @@ export const postsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getAllPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.posts = null;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      .addCase(getAllLikedPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.posts = action.payload;
+      })
+      .addCase(getAllLikedPosts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllLikedPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.posts = null;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+
+      .addCase(getAllPostsByCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.posts = action.payload;
+      })
+      .addCase(getAllPostsByCategory.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllPostsByCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.posts = null;
         state.isError = true;

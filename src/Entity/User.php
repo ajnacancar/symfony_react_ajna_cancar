@@ -3,6 +3,8 @@
 namespace App\Entity;
  
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,7 +17,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     private $id;
  
-    #[ORM\Column(type: 'string', length: 30, unique:true)]
+    // #[ORM\Column(type: 'string', length: 180, unique: true)]
+    // private $email;
+ 
+    #[ORM\Column(type: 'string', length: 30,unique:true)]
     private $username;
  
     #[ORM\Column(type: 'json')]
@@ -26,58 +31,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
  
     #[ORM\Column(type:'string', length: 50)]
     private $name = null;
+
+    #[ORM\ManyToMany(targetEntity: Posts::class, inversedBy: 'LikedByUsers')]
+    private Collection $LikedPosts;
+
+    public function __construct()
+    {
+        $this->LikedPosts = new ArrayCollection();
+    }
      
-     
-    /**
-     * getId
-     *
-     * @return int
-     */
+ 
     public function getId(): ?int
     {
         return $this->id;
     }
-
-     
-    /**
-     * getUsername
-     *
-     * @return string
-     */
+ 
+    // public function getEmail(): ?string
+    // {
+    //     return $this->email;
+    // }
+ 
+    // public function setEmail(string $email): self
+    // {
+    //     $this->email = $email;
+ 
+    //     return $this;
+    // }
+ 
     public function getUsername(): string
     {
         return (string) $this->username;
     }
-     
-    /**
-     * setUsername
-     *
-     * @param  mixed $username
-     * @return self
-     */
+ 
     public function setUsername(string $username): self
     {
         $this->username = $username;
  
         return $this;
     }
-    
-    /**
-     * getName
-     *
-     * @return string
-     */
+
     public function getName(): string
     {
         return (string) $this->name;
     }
-     
-    /**
-     * setName
-     *
-     * @param  mixed $name
-     * @return self
-     */
+ 
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -106,13 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
  
         return array_unique($roles);
     }
-     
-    /**
-     * setRoles
-     *
-     * @param  mixed $roles
-     * @return self
-     */
+ 
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -127,13 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->password;
     }
-     
-    /**
-     * setPassword
-     *
-     * @param  mixed $password
-     * @return self
-     */
+ 
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -148,6 +133,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Posts>
+     */
+    public function getLikedPosts(): Collection
+    {
+        return $this->LikedPosts;
+    }
+
+    public function addLikedPost(Posts $likedPost): static
+    {
+        if (!$this->LikedPosts->contains($likedPost)) {
+            $this->LikedPosts->add($likedPost);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedPost(Posts $likedPost): static
+    {
+        $this->LikedPosts->removeElement($likedPost);
+
+        return $this;
     }
  
     

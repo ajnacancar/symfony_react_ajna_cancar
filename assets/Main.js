@@ -15,9 +15,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminAllPosts from "./pages/AdminAllPosts";
 import AdminEditPost from "./pages/AdminEditPost";
 import AdminCreateNewPost from "./pages/AdminCreateNewPost";
+import LikedPosts from "./pages/LikedPosts"
 
 function Main() {
-  const { isAdminAuthenticated } = useSelector((state) => state.auth);
+  const { isAdminAuthenticated, isUserAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const token = localStorage.getItem(TOKEN_LOCAL_STORAGE)
     ? JSON.parse(localStorage.getItem(TOKEN_LOCAL_STORAGE))
@@ -35,6 +36,21 @@ function Main() {
         <Route path={"/post/:id"} element={<PostDetails />} />
         <Route path={"/login"} element={<LoginPage />} />
         <Route path={"/register"} element={<RegisterPage />} />
+
+        <Route
+          path={"/liked-posts"}
+          element={
+            <>
+              {isUserAuthenticated !== null && (
+                <ProtectedRoute
+                  token={token}
+                  data={isUserAuthenticated}
+                  children={<LikedPosts />}
+                />
+              )}
+            </>
+          }
+        />
 
         <Route
           path={"/all-posts"}

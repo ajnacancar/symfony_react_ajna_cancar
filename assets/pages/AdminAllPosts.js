@@ -21,6 +21,7 @@ function AdminAllPosts() {
       rows.push({
         id: post.id,
         title: post.title,
+        category: post.category.name,
         date: moment().format("DD.MM.YYYY", post.created_at.date),
       });
     });

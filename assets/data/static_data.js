@@ -17,6 +17,12 @@ export const columns_table_all_posts = [
     flex: 0.5,
   },
   {
+    field: "category",
+    headerName: "CATEGORY",
+    minWidth: 150,
+    flex: 0.5,
+  },
+  {
     field: "actions",
     headerName: "ACTIONS",
     minWidth: 150,
@@ -26,3 +32,4 @@ export const columns_table_all_posts = [
 ];
 
 export const IMAGE_LINK = "http://localhost:8000/uploads/image_directory/";
+export const API_URL = "http://localhost:8000/api"

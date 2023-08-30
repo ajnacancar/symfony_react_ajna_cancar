@@ -33,7 +33,10 @@ security:
     access_control:
         - { path: ^/api/register, roles: PUBLIC_ACCESS  }
         - { path: ^/api/login, roles: PUBLIC_ACCESS  }
-        - { path: ^/api/posts/new,       roles: ROLE_ADMIN  }
+        - { path: ^/api/category/all, roles: PUBLIC_ACCESS  }
+        - { path: ^/api/posts/category/\d+$, roles: PUBLIC_ACCESS  }
+        - { path: ^/api/posts/(like|dislike)/\d+$, roles: ROLE_USER  }
+        - { path: ^/api/(posts|category)/new,       roles: ROLE_ADMIN  }
         - { path: ^/api/posts/(edit|delete)/\d+$,       roles: ROLE_ADMIN  }
 
 

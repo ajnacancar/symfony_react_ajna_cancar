@@ -13,8 +13,9 @@ const initialState = {
   isSuccess: null,
   message: "",
   isLoading: false,
-  data: null,
-  isAdminAuthenticated: null
+  isAdminAuthenticated: null,
+  isUserAuthenticated: null,
+
 };
 
 //LOGIN
@@ -80,15 +81,16 @@ export const authSlice = createSlice({
       .addCase(currentUser.fulfilled, (state, action) => {
         state.isLoading = false;
         // state.isSuccess = true;
-        state.isAdminAuthenticated = action.payload.is_admin ;
+        state.isAdminAuthenticated = action.payload.is_admin;
+        state.isUserAuthenticated = action.payload.is_user;
       })
       .addCase(currentUser.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(currentUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.data = null;
-        state.isAdminAuthenticated = false;
+        state.isAdminAuthenticated = null;
+        state.isUserAuthenticated = null
         // state.isError = true;
         state.message = action.payload;
       });
